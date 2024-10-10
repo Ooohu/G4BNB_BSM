@@ -5,6 +5,7 @@
 #include "G4Element.hh"
 #include "G4VProcess.hh"
 #include "G4DynamicParticle.hh"
+#include "G4PionZero.hh"
 #include "G4PionPlus.hh"
 #include "G4PionMinus.hh"
 #include "G4Proton.hh"
@@ -34,40 +35,44 @@ public:
   BooNEHadronCrossSectionsMessenger* theCrossSectionsMessenger;
   
   G4bool IsApplicable(const G4DynamicParticle* aParticle,
-		      G4int Z, G4int A);
+          G4int Z, G4int A);
   
   G4double GetTotalCrossSection(const G4DynamicParticle* aParticle,
-				G4int Z, G4int A);
+        G4int Z, G4int A);
 
   G4double GetElasticCrossSection(const G4DynamicParticle* aParticle,
-				  G4int Z, G4int A);
+          G4int Z, G4int A);
   
   G4double GetQuasiElasticCrossSection(const G4DynamicParticle* aParticle,
-				       G4int Z, G4int A);
+               G4int Z, G4int A);
   
   G4double GetInelasticCrossSection(const G4DynamicParticle* aParticle,
-				    G4int Z, G4int A);
+            G4int Z, G4int A);
   
   // accessor for momentum ranges
   G4double GetProtonBeMomentumMin()     { return pBeMin;   }
   G4double GetNeutronBeMomentumMin()    { return nBeMin;   }
   G4double GetPionPlusBeMomentumMin()   { return pipBeMin; }
   G4double GetPionMinusBeMomentumMin()  { return pimBeMin; }
+  G4double GetPionZeroBeMomentumMin()  { return pizBeMin; }
 
   G4double GetProtonBeMomentumMax()     { return pBeMax;   }
   G4double GetNeutronBeMomentumMax()    { return nBeMax;   }
   G4double GetPionPlusBeMomentumMax()   { return pipBeMax; }
   G4double GetPionMinusBeMomentumMax()  { return pimBeMax; }
+  G4double GetPionZeroBeMomentumMax()  { return pizBeMax; }
 
   G4double GetProtonAlMomentumMin()     { return pAlMin;   }
   G4double GetNeutronAlMomentumMin()    { return nAlMin;   }
   G4double GetPionPlusAlMomentumMin()   { return pipAlMin; }
   G4double GetPionMinusAlMomentumMin()  { return pimAlMin; }
+  G4double GetPionZeroAlMomentumMin()  { return pizAlMin; }
 
   G4double GetProtonAlMomentumMax()     { return pAlMax;   }
   G4double GetNeutronAlMomentumMax()    { return nAlMax;   }
   G4double GetPionPlusAlMomentumMax()   { return pipAlMax; }
   G4double GetPionMinusAlMomentumMax()  { return pimAlMax; }
+  G4double GetPionZeroAlMomentumMax()  { return pizAlMax; }
 
 
   // modifier for momentum ranges
@@ -75,11 +80,13 @@ public:
   void SetNeutronBeMomentumRange(G4double min, G4double max)     { nBeMin = min;   nBeMax = max;   }
   void SetPionPlusBeMomentumRange(G4double min, G4double max)    { pipBeMin = min; pipBeMax = max; }
   void SetPionMinusBeMomentumRange(G4double min, G4double max)   { pimBeMin = min; pimBeMax = max; }
+  void SetPionZeroBeMomentumRange(G4double min, G4double max)   { pizBeMin = min; pizBeMax = max; }
 
   void SetProtonAlMomentumRange(G4double min, G4double max)       { pAlMin = min;   pAlMax = max;   }
-  void SetNeutronAlMomentumRange(G4double min, G4double max)	  { nAlMin = min;   nAlMax = max;   }
-  void SetPionPlusAlMomentumRange(G4double min, G4double max)	  { pipAlMin = min; pipAlMax = max; }
-  void SetPionMinusAlMomentumRange(G4double min, G4double max)	  { pimAlMin = min; pimAlMax = max; }
+  void SetNeutronAlMomentumRange(G4double min, G4double max)    { nAlMin = min;   nAlMax = max;   }
+  void SetPionPlusAlMomentumRange(G4double min, G4double max)    { pipAlMin = min; pipAlMax = max; }
+  void SetPionMinusAlMomentumRange(G4double min, G4double max)    { pimAlMin = min; pimAlMax = max; }
+  void SetPionZeroAlMomentumRange(G4double min, G4double max)    { pizAlMin = min; pizAlMax = max; }
 
   // modifiers for the cross sections
   // proton-Be
@@ -117,10 +124,20 @@ public:
   void SetPimBeQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pimBeQelParameters.push_back(values[i]); }
   void SetPimBeIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pimBeIneParameters.push_back(values[i]); }
 
-  // neutron-Al
+  // pim-Al
   void SetPimAlTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pimAlTotParameters.push_back(values[i]); }
   void SetPimAlQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pimAlQelParameters.push_back(values[i]); }
   void SetPimAlIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pimAlIneParameters.push_back(values[i]); }
+
+  // piz-Be
+  void SetPizBeTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizBeTotParameters.push_back(values[i]); }
+  void SetPizBeQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizBeQelParameters.push_back(values[i]); }
+  void SetPizBeIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizBeIneParameters.push_back(values[i]); }
+
+  // piz-Al
+  void SetPizAlTotParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizAlTotParameters.push_back(values[i]); }
+  void SetPizAlQelParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizAlQelParameters.push_back(values[i]); }
+  void SetPizAlIneParameter(G4double* values, G4int nvars){ for(int i = 0; i < nvars; i++)pizAlIneParameters.push_back(values[i]); }
 
 
 
@@ -128,7 +145,7 @@ public:
 
   // Breit Wigner functions
   G4double BreitWigner(G4double p, G4double mHadron, G4double mTarget, 
-		       G4double N, G4double M0,      G4double Gamma);
+      G4double N, G4double M0,      G4double Gamma);
 
   G4double CarrollBreitWigner(G4double p, G4double A, G4double mHadron);
 
@@ -137,15 +154,14 @@ public:
   G4double Regge(G4double p, G4double A, G4double B, G4double n, G4double C, G4double D);
 
   G4double ReggeWithThreshold(G4double p, G4double p0, G4double s, 
-			      G4double A, G4double B, G4double n, G4double C, G4double D);
-
+      G4double A, G4double B, G4double n, G4double C, G4double D);
 
 
   void SetVerboseLevel(G4int value)
   {
     verboseLevel = value;
   }
-  
+
   G4int GetVerboseLevel()
   {
     return verboseLevel;
@@ -158,6 +174,7 @@ private:
   G4double nBeMin,   nBeMax,   nAlMin,   nAlMax; 
   G4double pipBeMin, pipBeMax, pipAlMin, pipAlMax; 
   G4double pimBeMin, pimBeMax, pimAlMin, pimAlMax; 
+  G4double pizBeMin, pizBeMax, pizAlMin, pizAlMax; 
 
   // proton cross section parameters
   std::vector<G4double>  pBeTotParameters;
@@ -197,6 +214,16 @@ private:
   std::vector<G4double>  pimAlTotParameters;
   std::vector<G4double>  pimAlQelParameters;
   std::vector<G4double>  pimAlIneParameters;
+
+  // piminus cross section parameters
+  std::vector<G4double>  pizBeTotParameters;
+  std::vector<G4double>  pizBeQelParameters;
+  std::vector<G4double>  pizBeIneParameters;
+
+  std::vector<G4double>  pizAlTotParameters;
+  std::vector<G4double>  pizAlQelParameters;
+  std::vector<G4double>  pizAlIneParameters;
+
 
   static BooNEHadronCrossSections* theInstance;
   

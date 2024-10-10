@@ -10,9 +10,9 @@ BooNEHadronCrossSections::BooNEHadronCrossSections()
   theCrossSectionsMessenger = new BooNEHadronCrossSectionsMessenger(this);
 }
 
-G4bool 
+  G4bool 
 BooNEHadronCrossSections::IsApplicable(const G4DynamicParticle* aParticle,  
-				       G4int Z, G4int A)
+    G4int Z, G4int A)
 {
   // currently only Beryllium and Aluminum
   bool isBe =  ( Z ==  4 ) && ( A ==  9) ;
@@ -32,70 +32,219 @@ BooNEHadronCrossSections::IsApplicable(const G4DynamicParticle* aParticle,
   if(aParticleDef == G4Neutron::Neutron()     && isBe)return (momentum > nBeMin   && momentum < nBeMax  );
   if(aParticleDef == G4PionPlus::PionPlus()   && isBe)return (momentum > pipBeMin && momentum < pipBeMax);
   if(aParticleDef == G4PionMinus::PionMinus() && isBe)return (momentum > pimBeMin && momentum < pimBeMax);
+  if(aParticleDef == G4PionZero::PionZero() && isBe)return (momentum > pizBeMin && momentum < pizBeMax);
 
   // Aluminum
   if(aParticleDef == G4Proton::Proton()       && isAl)return (momentum > pAlMin   && momentum < pAlMax  );
   if(aParticleDef == G4Neutron::Neutron()     && isAl)return (momentum > nAlMin   && momentum < nAlMax  );
   if(aParticleDef == G4PionPlus::PionPlus()   && isAl)return (momentum > pipAlMin && momentum < pipAlMax);
   if(aParticleDef == G4PionMinus::PionMinus() && isAl)return (momentum > pimAlMin && momentum < pimAlMax);
+  if(aParticleDef == G4PionZero::PionZero() && isAl)return (momentum > pizAlMin && momentum < pizAlMax);
 
   // if we're here, we ain't got it
   return false;
 
 }
 
-G4double
+//OLD
+//G4double
+//BooNEHadronCrossSections::GetTotalCrossSection(const G4DynamicParticle* aParticle,
+//                 G4int ZNucleus, G4int ANucleus)
+//{
+//
+//  G4double theCrossSection = 0;
+//  G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
+//
+//  // go through the various cases:
+//  if(aParticle->GetDefinition()      == G4Proton::Proton()){
+//
+//    // Proton total cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = pBeTotParameters[0];
+//      B = pBeTotParameters[1];
+//      n = pBeTotParameters[2];
+//      C = pBeTotParameters[3];
+//      D = pBeTotParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = pAlTotParameters[0];
+//      B = pAlTotParameters[1];
+//      n = pAlTotParameters[2];
+//      C = pAlTotParameters[3];
+//      D = pAlTotParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
+//
+//    // Neutron total cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = nBeTotParameters[0];
+//      B = nBeTotParameters[1];
+//      n = nBeTotParameters[2];
+//      C = nBeTotParameters[3];
+//      D = nBeTotParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = nAlTotParameters[0];
+//      B = nAlTotParameters[1];
+//      n = nAlTotParameters[2];
+//      C = nAlTotParameters[3];
+//      D = nAlTotParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
+//
+//    // piplus total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
+//    // however, instead of summing the two parts, we have a transition parameter that switches
+//    // between the two functional forms. We'll call it tr
+//    G4double tr, p0, s, A, B, C, n, D;
+//    
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      tr = pipBeTotParameters[0];
+//      p0 = pipBeTotParameters[1];
+//      s  = pipBeTotParameters[2];
+//      A  = pipBeTotParameters[3];
+//      B  = pipBeTotParameters[4];
+//      C  = pipBeTotParameters[5];
+//      n  = pipBeTotParameters[6];
+//      D  = pipBeTotParameters[7];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      tr    = pipAlTotParameters[0];
+//      p0    = pipAlTotParameters[1];
+//      s     = pipAlTotParameters[2];
+//      A     = pipAlTotParameters[3];
+//      B     = pipAlTotParameters[4];
+//      C     = pipAlTotParameters[5];
+//      n     = pipAlTotParameters[6];
+//      D     = pipAlTotParameters[7];
+//    }
+//
+//    if( theMomentum < tr)
+//      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV);
+//    else 
+//      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//
+//
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+//
+//    // piminus total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
+//    // however, instead of summing the two parts, we have a transition parameter that switches
+//    // between the two functional forms. We'll call it tr
+//    G4double tr, p0, s, A, B, C, n, D; 
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      tr = pimBeTotParameters[0];
+//      p0 = pimBeTotParameters[1];
+//      s  = pimBeTotParameters[2];
+//      A  = pimBeTotParameters[3];
+//      B  = pimBeTotParameters[4];
+//      C  = pimBeTotParameters[5];
+//      n  = pimBeTotParameters[6];
+//      D  = pimBeTotParameters[7];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      tr    = pimAlTotParameters[0];
+//      p0    = pimAlTotParameters[1];
+//      s     = pimAlTotParameters[2];
+//      A     = pimAlTotParameters[3];
+//      B     = pimAlTotParameters[4];
+//      C     = pimAlTotParameters[5];
+//      n     = pimAlTotParameters[6];
+//      D     = pimAlTotParameters[7];
+//    }
+//
+//
+//    if( theMomentum < tr)
+//      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV);
+//    else 
+//      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionZero::PionZero()){
+//  //CHECKCHECK
+//
+//    // pizero total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
+//    // however, instead of summing the two parts, we have a transition parameter that switches
+//    // between the two functional forms. We'll call it tr
+//    G4double tr, p0, s, A, B, C, n, D; 
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      tr = pizBeTotParameters[0];
+//      p0 = pizBeTotParameters[1];
+//      s  = pizBeTotParameters[2];
+//      A  = pizBeTotParameters[3];
+//      B  = pizBeTotParameters[4];
+//      C  = pizBeTotParameters[5];
+//      n  = pizBeTotParameters[6];
+//      D  = pizBeTotParameters[7];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      tr    = pizAlTotParameters[0];
+//      p0    = pizAlTotParameters[1];
+//      s     = pizAlTotParameters[2];
+//      A     = pizAlTotParameters[3];
+//      B     = pizAlTotParameters[4];
+//      C     = pizAlTotParameters[5];
+//      n     = pizAlTotParameters[6];
+//      D     = pizAlTotParameters[7];
+//    }
+//
+//
+//    if( theMomentum < tr)
+//      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionZero::PionZero()->GetPDGMass()/CLHEP::GeV);
+//    else 
+//      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//  }
+//
+//  // add units
+//  return theCrossSection * CLHEP::millibarn;
+//
+//}
+//OLD
+
+  G4double
 BooNEHadronCrossSections::GetTotalCrossSection(const G4DynamicParticle* aParticle,
-					       G4int ZNucleus, G4int ANucleus)
+    G4int ZNucleus, G4int ANucleus)
 {
 
   G4double theCrossSection = 0;
+  G4double theMass = (aParticle->GetDefinition())->GetPDGMass()/CLHEP::GeV;
   G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
+  std::vector<G4double>  ReggePars(5,0);//Stors parameters for Regge parameterization
 
   // go through the various cases:
   if(aParticle->GetDefinition()      == G4Proton::Proton()){
 
     // Proton total cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
-
     if( ZNucleus == 4 && ANucleus == 9){
-      A = pBeTotParameters[0];
-      B = pBeTotParameters[1];
-      n = pBeTotParameters[2];
-      C = pBeTotParameters[3];
-      D = pBeTotParameters[4];
+      ReggePars = pBeTotParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = pAlTotParameters[0];
-      B = pAlTotParameters[1];
-      n = pAlTotParameters[2];
-      C = pAlTotParameters[3];
-      D = pAlTotParameters[4];
+      ReggePars = pAlTotParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
-
   }
 
   else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
 
     // Neutron total cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
-
     if( ZNucleus == 4 && ANucleus == 9){
-      A = nBeTotParameters[0];
-      B = nBeTotParameters[1];
-      n = nBeTotParameters[2];
-      C = nBeTotParameters[3];
-      D = nBeTotParameters[4];
+      ReggePars = nBeTotParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = nAlTotParameters[0];
-      B = nAlTotParameters[1];
-      n = nAlTotParameters[2];
-      C = nAlTotParameters[3];
-      D = nAlTotParameters[4];
+      ReggePars = nAlTotParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
   }
 
   else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
@@ -103,34 +252,15 @@ BooNEHadronCrossSections::GetTotalCrossSection(const G4DynamicParticle* aParticl
     // piplus total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
     // however, instead of summing the two parts, we have a transition parameter that switches
     // between the two functional forms. We'll call it tr
-    G4double tr, p0, s, A, B, C, n, D;
-    
+    ReggePars.resize(8);
+    theMass = G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV;
+
     if( ZNucleus == 4 && ANucleus == 9){
-      tr = pipBeTotParameters[0];
-      p0 = pipBeTotParameters[1];
-      s  = pipBeTotParameters[2];
-      A  = pipBeTotParameters[3];
-      B  = pipBeTotParameters[4];
-      C  = pipBeTotParameters[5];
-      n  = pipBeTotParameters[6];
-      D  = pipBeTotParameters[7];
+      ReggePars = pipBeTotParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      tr    = pipAlTotParameters[0];
-      p0    = pipAlTotParameters[1];
-      s     = pipAlTotParameters[2];
-      A     = pipAlTotParameters[3];
-      B     = pipAlTotParameters[4];
-      C     = pipAlTotParameters[5];
-      n     = pipAlTotParameters[6];
-      D     = pipAlTotParameters[7];
+      ReggePars = pipAlTotParameters;
     }
-
-    if( theMomentum < tr)
-      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV);
-    else 
-      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
-
 
   }
 
@@ -139,45 +269,75 @@ BooNEHadronCrossSections::GetTotalCrossSection(const G4DynamicParticle* aParticl
     // piminus total invovles a Caroll et al.Breit Wigner and a Regge parametrization with threshold
     // however, instead of summing the two parts, we have a transition parameter that switches
     // between the two functional forms. We'll call it tr
-    G4double tr, p0, s, A, B, C, n, D; 
+    ReggePars.resize(8);
+    theMass = G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV;
 
     if( ZNucleus == 4 && ANucleus == 9){
-      tr = pimBeTotParameters[0];
-      p0 = pimBeTotParameters[1];
-      s  = pimBeTotParameters[2];
-      A  = pimBeTotParameters[3];
-      B  = pimBeTotParameters[4];
-      C  = pimBeTotParameters[5];
-      n  = pimBeTotParameters[6];
-      D  = pimBeTotParameters[7];
+      ReggePars = pimBeTotParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      tr    = pimAlTotParameters[0];
-      p0    = pimAlTotParameters[1];
-      s     = pimAlTotParameters[2];
-      A     = pimAlTotParameters[3];
-      B     = pimAlTotParameters[4];
-      C     = pimAlTotParameters[5];
-      n     = pimAlTotParameters[6];
-      D     = pimAlTotParameters[7];
+      ReggePars = pimAlTotParameters;
     }
 
+  }
 
-    if( theMomentum < tr)
-      theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV);
-    else 
-      theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+  else if(aParticle->GetDefinition() == G4PionZero::PionZero()){
+    //CHECKCHECK
+    // pizero follows the similar treatment
+    ReggePars.resize(8);
+    theMass = G4PionZero::PionZero()->GetPDGMass()/CLHEP::GeV;
+
+    if( ZNucleus == 4 && ANucleus == 9){
+      ReggePars = pizBeTotParameters;
+    } 
+    else if( ZNucleus == 13 && ANucleus == 27){
+      ReggePars = pizAlTotParameters;
+    }
+
+  }//End of else ifs
+
+
+  switch(ReggePars.size()){
+    case 5: //No threshold
+      {
+        G4double A, B, n, C, D;
+        A = ReggePars[0];
+        B = ReggePars[1];
+        n = ReggePars[2];
+        C = ReggePars[3];
+        D = ReggePars[4];
+
+        theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+      }
+      break;
+    case 8: //With threshold
+      {
+        G4double tr, p0, s, A, B, C, n, D; 
+        tr    = ReggePars[0];
+        p0    = ReggePars[1];
+        s     = ReggePars[2];
+        A     = ReggePars[3];
+        B     = ReggePars[4];
+        C     = ReggePars[5];
+        n     = ReggePars[6];
+        D     = ReggePars[7];
+
+        if( theMomentum < tr)
+          theCrossSection =  CarrollBreitWigner(theMomentum, ANucleus, theMass);
+        else 
+          theCrossSection = ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+      }
+      break;
   }
 
   // add units
   return theCrossSection * CLHEP::millibarn;
-
 }
 
 
-G4double
+  G4double
 BooNEHadronCrossSections::GetElasticCrossSection(const G4DynamicParticle* aParticle,
-						 G4int Z, G4int A)
+    G4int Z, G4int A)
 {
 
   // we define the elastic cross section 
@@ -192,141 +352,400 @@ BooNEHadronCrossSections::GetElasticCrossSection(const G4DynamicParticle* aParti
 }
 
 
+//OLD
+//G4double
+//BooNEHadronCrossSections::GetQuasiElasticCrossSection(const G4DynamicParticle* aParticle,
+//                  G4int ZNucleus, G4int ANucleus)
+//{
+//
+//  G4double theCrossSection = 0;
+//  G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
+//
+//  // go through the various cases:
+//  if(aParticle->GetDefinition()      == G4Proton::Proton()){
+//
+//    // Proton quasi-elastic cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = pBeQelParameters[0];
+//      B = pBeQelParameters[1];
+//      n = pBeQelParameters[2];
+//      C = pBeQelParameters[3];
+//      D = pBeQelParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = pAlQelParameters[0];
+//      B = pAlQelParameters[1];
+//      n = pAlQelParameters[2];
+//      C = pAlQelParameters[3];
+//      D = pAlQelParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
+//
+//    // Neutron quasi-elastic cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = nBeQelParameters[0];
+//      B = nBeQelParameters[1];
+//      n = nBeQelParameters[2];
+//      C = nBeQelParameters[3];
+//      D = nBeQelParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = nAlQelParameters[0];
+//      B = nAlQelParameters[1];
+//      n = nAlQelParameters[2];
+//      C = nAlQelParameters[3];
+//      D = nAlQelParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
+//
+//    // piplus quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
+//    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+//    
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      N     = pipBeQelParameters[0];
+//      M0    = pipBeQelParameters[1];
+//      Gamma = pipBeQelParameters[2];
+//      p0    = pipBeQelParameters[3];
+//      s     = pipBeQelParameters[4];
+//      A     = pipBeQelParameters[5];
+//      B     = pipBeQelParameters[6];
+//      C     = pipBeQelParameters[7];
+//      n     = pipBeQelParameters[8];
+//      D     = pipBeQelParameters[9];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      N     = pipAlQelParameters[0];
+//      M0    = pipAlQelParameters[1];
+//      Gamma = pipAlQelParameters[2];
+//      p0    = pipAlQelParameters[3];
+//      s     = pipAlQelParameters[4];
+//      A     = pipAlQelParameters[5];
+//      B     = pipAlQelParameters[6];
+//      C     = pipAlQelParameters[7];
+//      n     = pipAlQelParameters[8];
+//      D     = pipAlQelParameters[9];
+//    }
+//
+//    theCrossSection =  BreitWigner(theMomentum, 
+//           G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV, 
+//           G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+//           N, M0, Gamma) + 
+//                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+//  // piminus quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
+//    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+//    
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      N     = pimBeQelParameters[0];
+//      M0    = pimBeQelParameters[1];
+//      Gamma = pimBeQelParameters[2];
+//      p0    = pimBeQelParameters[3];
+//      s     = pimBeQelParameters[4];
+//      A     = pimBeQelParameters[5];
+//      B     = pimBeQelParameters[6];
+//      C     = pimBeQelParameters[7];
+//      n     = pimBeQelParameters[8];
+//      D     = pimBeQelParameters[9];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      N     = pimAlQelParameters[0];
+//      M0    = pimAlQelParameters[1];
+//      Gamma = pimAlQelParameters[2];
+//      p0    = pimAlQelParameters[3];
+//      s     = pimAlQelParameters[4];
+//      A     = pimAlQelParameters[5];
+//      B     = pimAlQelParameters[6];
+//      C     = pimAlQelParameters[7];
+//      n     = pimAlQelParameters[8];
+//      D     = pimAlQelParameters[9];
+//    }
+//    theCrossSection =  BreitWigner(theMomentum, 
+//           G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV, 
+//           G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+//           N, M0, Gamma) +       
+//                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+// 
+//  }
+//
+//  // add units
+//  return theCrossSection * CLHEP::millibarn;
+//}
+//OLD
 
-G4double
+  G4double
 BooNEHadronCrossSections::GetQuasiElasticCrossSection(const G4DynamicParticle* aParticle,
-						      G4int ZNucleus, G4int ANucleus)
+    G4int ZNucleus, G4int ANucleus)
 {
-
   G4double theCrossSection = 0;
+  G4double theMass = (aParticle->GetDefinition())->GetPDGMass()/CLHEP::GeV;
   G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
+  std::vector<G4double>  ReggePars(5,0);
 
   // go through the various cases:
+
+
   if(aParticle->GetDefinition()      == G4Proton::Proton()){
 
     // Proton quasi-elastic cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
-
     if( ZNucleus == 4 && ANucleus == 9){
-      A = pBeQelParameters[0];
-      B = pBeQelParameters[1];
-      n = pBeQelParameters[2];
-      C = pBeQelParameters[3];
-      D = pBeQelParameters[4];
+      ReggePars = pBeQelParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = pAlQelParameters[0];
-      B = pAlQelParameters[1];
-      n = pAlQelParameters[2];
-      C = pAlQelParameters[3];
-      D = pAlQelParameters[4];
+      ReggePars = pAlQelParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
 
   }
 
   else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
 
     // Neutron quasi-elastic cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
-
     if( ZNucleus == 4 && ANucleus == 9){
-      A = nBeQelParameters[0];
-      B = nBeQelParameters[1];
-      n = nBeQelParameters[2];
-      C = nBeQelParameters[3];
-      D = nBeQelParameters[4];
+      ReggePars = nBeQelParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = nAlQelParameters[0];
-      B = nAlQelParameters[1];
-      n = nAlQelParameters[2];
-      C = nAlQelParameters[3];
-      D = nAlQelParameters[4];
+      ReggePars = nAlQelParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
   }
 
   else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
 
     // piplus quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
-    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
-    
+    ReggePars.resize(10);
+
     if( ZNucleus == 4 && ANucleus == 9){
-      N     = pipBeQelParameters[0];
-      M0    = pipBeQelParameters[1];
-      Gamma = pipBeQelParameters[2];
-      p0    = pipBeQelParameters[3];
-      s     = pipBeQelParameters[4];
-      A     = pipBeQelParameters[5];
-      B     = pipBeQelParameters[6];
-      C     = pipBeQelParameters[7];
-      n     = pipBeQelParameters[8];
-      D     = pipBeQelParameters[9];
+      ReggePars = pipBeQelParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      N     = pipAlQelParameters[0];
-      M0    = pipAlQelParameters[1];
-      Gamma = pipAlQelParameters[2];
-      p0    = pipAlQelParameters[3];
-      s     = pipAlQelParameters[4];
-      A     = pipAlQelParameters[5];
-      B     = pipAlQelParameters[6];
-      C     = pipAlQelParameters[7];
-      n     = pipAlQelParameters[8];
-      D     = pipAlQelParameters[9];
+      ReggePars = pipAlQelParameters;
     }
 
-    theCrossSection =  BreitWigner(theMomentum, 
-				   G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV, 
-				   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
-				   N, M0, Gamma) + 
-                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
   }
 
   else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
-  // piminus quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
-    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
-    
+    // piminus quasi-elastic invovles a Breit Wigner and a Regge parametrization with threshold
+    ReggePars.resize(10);
+
     if( ZNucleus == 4 && ANucleus == 9){
-      N     = pimBeQelParameters[0];
-      M0    = pimBeQelParameters[1];
-      Gamma = pimBeQelParameters[2];
-      p0    = pimBeQelParameters[3];
-      s     = pimBeQelParameters[4];
-      A     = pimBeQelParameters[5];
-      B     = pimBeQelParameters[6];
-      C     = pimBeQelParameters[7];
-      n     = pimBeQelParameters[8];
-      D     = pimBeQelParameters[9];
+      ReggePars = pimBeQelParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      N     = pimAlQelParameters[0];
-      M0    = pimAlQelParameters[1];
-      Gamma = pimAlQelParameters[2];
-      p0    = pimAlQelParameters[3];
-      s     = pimAlQelParameters[4];
-      A     = pimAlQelParameters[5];
-      B     = pimAlQelParameters[6];
-      C     = pimAlQelParameters[7];
-      n     = pimAlQelParameters[8];
-      D     = pimAlQelParameters[9];
+      ReggePars = pimAlQelParameters;
     }
-    theCrossSection =  BreitWigner(theMomentum, 
-				   G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV, 
-				   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
-				   N, M0, Gamma) +       
-                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
- 
+
   }
 
+  else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+    // pizero follows the same treatment;
+    ReggePars.resize(10);
+
+    if( ZNucleus == 4 && ANucleus == 9){
+      ReggePars = pizBeQelParameters;
+    } 
+    else if( ZNucleus == 13 && ANucleus == 27){
+      ReggePars = pizAlQelParameters;
+    }
+
+  }
+
+  switch(ReggePars.size()){
+    case 5: //No threshold
+      {
+        G4double A, B, n, C, D;
+        A = ReggePars[0];
+        B = ReggePars[1];
+        n = ReggePars[2];
+        C = ReggePars[3];
+        D = ReggePars[4];
+
+        theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+      }
+      break;
+    case 10: //With threshold
+      {
+        G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+        N     = ReggePars[0];
+        M0    = ReggePars[1];
+        Gamma = ReggePars[2];
+        p0    = ReggePars[3];
+        s     = ReggePars[4];
+        A     = ReggePars[5];
+        B     = ReggePars[6];
+        C     = ReggePars[7];
+        n     = ReggePars[8];
+        D     = ReggePars[9];
+
+        theCrossSection =  BreitWigner(theMomentum, 
+            theMass, 
+            G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+            N, M0, Gamma) + 
+          ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+      }
+      break;
+  }
   // add units
   return theCrossSection * CLHEP::millibarn;
 }
 
-G4double
+//OLD
+//G4double
+//BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aParticle,
+//               G4int ZNucleus, G4int ANucleus)
+//{
+//
+//  // note strange situation here:
+//  // the G4 inelastic models typically do not include quasi elastic interactions so
+//  // we will subtract the quasi elastic cross section from whatever we get here
+//  // under the assumption that the quasi-elastic process gets assigned to its own model
+//
+//  // Actually with geant4.10 we will let geant handle quasielastic within inelastic model, 
+//  // so we will not subtract quasielastic part
+//  G4double theCrossSection             = 0;
+//  //  G4double theQuasiElasticCrossSection = GetQuasiElasticCrossSection(aParticle,ZNucleus, ANucleus);
+//
+//  G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
+//
+//  // go through the various cases:
+//  if(aParticle->GetDefinition()      == G4Proton::Proton()){
+//
+//    // Proton inelastic cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = pBeIneParameters[0];
+//      B = pBeIneParameters[1];
+//      n = pBeIneParameters[2];
+//      C = pBeIneParameters[3];
+//      D = pBeIneParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = pAlIneParameters[0];
+//      B = pAlIneParameters[1];
+//      n = pAlIneParameters[2];
+//      C = pAlIneParameters[3];
+//      D = pAlIneParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
+//
+//    // Neutron inelastic cross section is based on Regge parametrization
+//    G4double A, B, n, C, D;
+//
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      A = nBeIneParameters[0];
+//      B = nBeIneParameters[1];
+//      n = nBeIneParameters[2];
+//      C = nBeIneParameters[3];
+//      D = nBeIneParameters[4];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      A = nAlIneParameters[0];
+//      B = nAlIneParameters[1];
+//      n = nAlIneParameters[2];
+//      C = nAlIneParameters[3];
+//      D = nAlIneParameters[4];
+//    }
+//    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
+//
+//    // piplus inelastic invovles a Breit Wigner and a Regge parametrization with threshold
+//    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+//    
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      N     = pipBeIneParameters[0];
+//      M0    = pipBeIneParameters[1];
+//      Gamma = pipBeIneParameters[2];
+//      p0    = pipBeIneParameters[3];
+//      s     = pipBeIneParameters[4];
+//      A     = pipBeIneParameters[5];
+//      B     = pipBeIneParameters[6];
+//      C     = pipBeIneParameters[7];
+//      n     = pipBeIneParameters[8];
+//      D     = pipBeIneParameters[9];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      N     = pipAlIneParameters[0];
+//      M0    = pipAlIneParameters[1];
+//      Gamma = pipAlIneParameters[2];
+//      p0    = pipAlIneParameters[3];
+//      s     = pipAlIneParameters[4];
+//      A     = pipAlIneParameters[5];
+//      B     = pipAlIneParameters[6];
+//      C     = pipAlIneParameters[7];
+//      n     = pipAlIneParameters[8];
+//      D     = pipAlIneParameters[9];
+//    }
+//    theCrossSection =  BreitWigner(theMomentum, 
+//           G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV, 
+//           G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+//           N, M0, Gamma) + 
+//                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//
+//  }
+//
+//  else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+//  // piminus inelastic invovles a Breit Wigner and a Regge parametrization with threshold
+//    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+//    
+//    if( ZNucleus == 4 && ANucleus == 9){
+//      N     = pimBeIneParameters[0];
+//      M0    = pimBeIneParameters[1];
+//      Gamma = pimBeIneParameters[2];
+//      p0    = pimBeIneParameters[3];
+//      s     = pimBeIneParameters[4];
+//      A     = pimBeIneParameters[5];
+//      B     = pimBeIneParameters[6];
+//      C     = pimBeIneParameters[7];
+//      n     = pimBeIneParameters[8];
+//      D     = pimBeIneParameters[9];
+//    } 
+//    else if( ZNucleus == 13 && ANucleus == 27){
+//      N     = pimAlIneParameters[0];
+//      M0    = pimAlIneParameters[1];
+//      Gamma = pimAlIneParameters[2];
+//      p0    = pimAlIneParameters[3];
+//      s     = pimAlIneParameters[4];
+//      A     = pimAlIneParameters[5];
+//      B     = pimAlIneParameters[6];
+//      C     = pimAlIneParameters[7];
+//      n     = pimAlIneParameters[8];
+//      D     = pimAlIneParameters[9];
+//    }
+//
+//
+//    theCrossSection =  BreitWigner(theMomentum, 
+//           G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV, 
+//           G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+//           N, M0, Gamma) + 
+//                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+//  }
+//
+//  // add units
+//  return theCrossSection * CLHEP::millibarn;// - theQuasiElasticCrossSection;
+//
+//}
+//OLD
+
+  G4double
 BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aParticle,
-						   G4int ZNucleus, G4int ANucleus)
+    G4int ZNucleus, G4int ANucleus)
 {
 
   // note strange situation here:
@@ -341,124 +760,107 @@ BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aPar
 
   G4double theMomentum     = aParticle->GetTotalMomentum()/CLHEP::GeV;
 
+  G4double theMass = (aParticle->GetDefinition())->GetPDGMass()/CLHEP::GeV;
+  std::vector<G4double>  ReggePars(5,0);
+
+
   // go through the various cases:
   if(aParticle->GetDefinition()      == G4Proton::Proton()){
 
     // Proton inelastic cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
 
     if( ZNucleus == 4 && ANucleus == 9){
-      A = pBeIneParameters[0];
-      B = pBeIneParameters[1];
-      n = pBeIneParameters[2];
-      C = pBeIneParameters[3];
-      D = pBeIneParameters[4];
+      ReggePars = pBeIneParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = pAlIneParameters[0];
-      B = pAlIneParameters[1];
-      n = pAlIneParameters[2];
-      C = pAlIneParameters[3];
-      D = pAlIneParameters[4];
+      ReggePars = pAlIneParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
 
   }
 
   else if(aParticle->GetDefinition() == G4Neutron::Neutron()){
 
     // Neutron inelastic cross section is based on Regge parametrization
-    G4double A, B, n, C, D;
 
     if( ZNucleus == 4 && ANucleus == 9){
-      A = nBeIneParameters[0];
-      B = nBeIneParameters[1];
-      n = nBeIneParameters[2];
-      C = nBeIneParameters[3];
-      D = nBeIneParameters[4];
+      ReggePars = nBeIneParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      A = nAlIneParameters[0];
-      B = nAlIneParameters[1];
-      n = nAlIneParameters[2];
-      C = nAlIneParameters[3];
-      D = nAlIneParameters[4];
+      ReggePars = nAlIneParameters;
     }
-    theCrossSection =  Regge(theMomentum, A, B, n, C, D);
   }
 
   else if(aParticle->GetDefinition() == G4PionPlus::PionPlus()){
 
     // piplus inelastic invovles a Breit Wigner and a Regge parametrization with threshold
-    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
-    
+    ReggePars.resize(10);
+
     if( ZNucleus == 4 && ANucleus == 9){
-      N     = pipBeIneParameters[0];
-      M0    = pipBeIneParameters[1];
-      Gamma = pipBeIneParameters[2];
-      p0    = pipBeIneParameters[3];
-      s     = pipBeIneParameters[4];
-      A     = pipBeIneParameters[5];
-      B     = pipBeIneParameters[6];
-      C     = pipBeIneParameters[7];
-      n     = pipBeIneParameters[8];
-      D     = pipBeIneParameters[9];
+      ReggePars = pipBeIneParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      N     = pipAlIneParameters[0];
-      M0    = pipAlIneParameters[1];
-      Gamma = pipAlIneParameters[2];
-      p0    = pipAlIneParameters[3];
-      s     = pipAlIneParameters[4];
-      A     = pipAlIneParameters[5];
-      B     = pipAlIneParameters[6];
-      C     = pipAlIneParameters[7];
-      n     = pipAlIneParameters[8];
-      D     = pipAlIneParameters[9];
+      ReggePars = pipAlIneParameters;
     }
-    theCrossSection =  BreitWigner(theMomentum, 
-				   G4PionPlus::PionPlus()->GetPDGMass()/CLHEP::GeV, 
-				   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
-				   N, M0, Gamma) + 
-                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
-
   }
 
   else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
-  // piminus inelastic invovles a Breit Wigner and a Regge parametrization with threshold
-    G4double N, M0, Gamma, p0, s, A, B, C, n, D;
-    
+    // piminus inelastic invovles a Breit Wigner and a Regge parametrization with threshold
+    ReggePars.resize(10);
+
     if( ZNucleus == 4 && ANucleus == 9){
-      N     = pimBeIneParameters[0];
-      M0    = pimBeIneParameters[1];
-      Gamma = pimBeIneParameters[2];
-      p0    = pimBeIneParameters[3];
-      s     = pimBeIneParameters[4];
-      A     = pimBeIneParameters[5];
-      B     = pimBeIneParameters[6];
-      C     = pimBeIneParameters[7];
-      n     = pimBeIneParameters[8];
-      D     = pimBeIneParameters[9];
+      ReggePars = pimBeIneParameters;
     } 
     else if( ZNucleus == 13 && ANucleus == 27){
-      N     = pimAlIneParameters[0];
-      M0    = pimAlIneParameters[1];
-      Gamma = pimAlIneParameters[2];
-      p0    = pimAlIneParameters[3];
-      s     = pimAlIneParameters[4];
-      A     = pimAlIneParameters[5];
-      B     = pimAlIneParameters[6];
-      C     = pimAlIneParameters[7];
-      n     = pimAlIneParameters[8];
-      D     = pimAlIneParameters[9];
+      ReggePars = pimAlIneParameters;
     }
+  }
 
+  else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+    // pizero inelastic get the same treatment
+    ReggePars.resize(10);
 
-    theCrossSection =  BreitWigner(theMomentum, 
-				   G4PionMinus::PionMinus()->GetPDGMass()/CLHEP::GeV, 
-				   G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
-				   N, M0, Gamma) + 
-                       ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+    if( ZNucleus == 4 && ANucleus == 9){
+      ReggePars = pizBeIneParameters;
+    } 
+    else if( ZNucleus == 13 && ANucleus == 27){
+      ReggePars = pizAlIneParameters;
+    }
+  }//end of else ifs
+
+  switch(ReggePars.size()){
+    case 5: //No threshold
+      {
+        G4double A, B, n, C, D;
+        A = ReggePars[0];
+        B = ReggePars[1];
+        n = ReggePars[2];
+        C = ReggePars[3];
+        D = ReggePars[4];
+
+        theCrossSection =  Regge(theMomentum, A, B, n, C, D);
+      }
+      break;
+    case 10: //With threshold
+      {
+        G4double N, M0, Gamma, p0, s, A, B, C, n, D;
+        N     = ReggePars[0];
+        M0    = ReggePars[1];
+        Gamma = ReggePars[2];
+        p0    = ReggePars[3];
+        s     = ReggePars[4];
+        A     = ReggePars[5];
+        B     = ReggePars[6];
+        C     = ReggePars[7];
+        n     = ReggePars[8];
+        D     = ReggePars[9];
+
+        theCrossSection =  BreitWigner(theMomentum, 
+            theMass, 
+            G4Proton::Proton()->GetPDGMass()/CLHEP::GeV, 
+            N, M0, Gamma) + 
+          ReggeWithThreshold(theMomentum, p0, s, A, B, C, n, D);
+      }
+      break;
   }
 
   // add units
@@ -467,7 +869,9 @@ BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aPar
 }
 
 
+
 // Routines: all assume p is in GeV/c (c=1) and return cross sections in mb.   
+// Below are calculations for each parameterization
 
 // Breit Wigner functions
 G4double BooNEHadronCrossSections::
@@ -552,7 +956,6 @@ CarrollBreitWigner(G4double p,  G4double A,  G4double mHadron)
 
 }
 
-
 // Regge parametrization of high energy behavior
 G4double BooNEHadronCrossSections::
 Regge(G4double p, G4double A, G4double B, G4double n, G4double C, G4double D)
@@ -560,14 +963,12 @@ Regge(G4double p, G4double A, G4double B, G4double n, G4double C, G4double D)
 
   G4double regge = A + B * pow(p,n) + C * pow(log(p), 2) + D * log(p);
   return regge;
-
-
 }
 
 // Regge parameterization with threshold
 G4double BooNEHadronCrossSections::
 ReggeWithThreshold(G4double p, G4double p0, G4double s, 
-		   G4double A, G4double B, G4double n, G4double C, G4double D)
+       G4double A, G4double B, G4double n, G4double C, G4double D)
 {
 
   G4double threshold = 0.5 * (1 + tanh( s*(p - p0) ) );
