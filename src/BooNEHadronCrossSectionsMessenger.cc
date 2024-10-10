@@ -36,6 +36,10 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   //  Define the piplus cross sections directory
   boonePionMinusCrossSectionsDirectory = new G4UIdirectory("/boone/crosssections/pionminus/");
   boonePionMinusCrossSectionsDirectory->SetGuidance( "BooNE piminus cross sections control commands.");
+ 
+  //  Define the piplus cross sections directory
+  boonePionMinusCrossSectionsDirectory = new G4UIdirectory("/boone/crosssections/pionminus/");
+  boonePionMinusCrossSectionsDirectory->SetGuidance( "BooNE pizero cross sections control commands.");
 
   G4UIparameter* param;
 
@@ -77,16 +81,30 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("pipAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pipAlMomentumRangeCmd->SetParameter(param);
 
   pimBeMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/pionminus/pimBeMomentumRange",this);
-  pimBeMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion plus Cross section ");
+  pimBeMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion minus Cross section ");
   pimBeMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/pionplus/pimBeMomentumRange min max");
   param = new G4UIparameter("pimBeMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); pimBeMomentumRangeCmd->SetParameter(param);
   param = new G4UIparameter("pimBeMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pimBeMomentumRangeCmd->SetParameter(param);
 
   pimAlMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/pionminus/pimAlMomentumRange",this);
-  pimAlMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion plus Cross section ");
+  pimAlMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion minus Cross section ");
   pimAlMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/pionminus/pimAlMomentumRange min max");
   param = new G4UIparameter("pimAlMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); pimAlMomentumRangeCmd->SetParameter(param);
   param = new G4UIparameter("pimAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pimAlMomentumRangeCmd->SetParameter(param);
+
+
+  pizBeMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/pionzero/pizBeMomentumRange",this);
+  pizBeMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion zero Cross section ");
+  pizBeMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/pionplus/pizBeMomentumRange min max");
+  param = new G4UIparameter("pizBeMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); pizBeMomentumRangeCmd->SetParameter(param);
+  param = new G4UIparameter("pizBeMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pizBeMomentumRangeCmd->SetParameter(param);
+
+  pizAlMomentumRangeCmd =  new G4UIcommand("/boone/crosssections/pionzero/pizAlMomentumRange",this);
+  pizAlMomentumRangeCmd->SetGuidance("Set momentum range for BooNE Pion zero Cross section ");
+  pizAlMomentumRangeCmd->SetGuidance("Usage: /boone/crosssections/pionzero/pizAlMomentumRange min max");
+  param = new G4UIparameter("pizAlMomentumRangeMin",'d',true);  param->SetDefaultValue(2.0); pizAlMomentumRangeCmd->SetParameter(param);
+  param = new G4UIparameter("pizAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pizAlMomentumRangeCmd->SetParameter(param);
+
 
 
   // specify proton cross section parameters
@@ -490,6 +508,8 @@ BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
   delete pipAlMomentumRangeCmd;
   delete pimBeMomentumRangeCmd;
   delete pimAlMomentumRangeCmd;
+  delete pizBeMomentumRangeCmd;
+  delete pizAlMomentumRangeCmd;
 
   delete totProBeXsecParCmd;
   delete ineProBeXsecParCmd;
@@ -575,6 +595,20 @@ void BooNEHadronCrossSectionsMessenger::SetNewValue(G4UIcommand * command,G4Stri
     G4double max = StoD(next());
     theBooNEHadronCrossSections->SetPionMinusAlMomentumRange(min, max);
   }
+
+  if (command == pizBeMomentumRangeCmd){
+    G4double min = StoD(next());
+    G4double max = StoD(next());
+    theBooNEHadronCrossSections->SetPionZeroBeMomentumRange(min, max);
+  }
+
+  if (command == pizAlMomentumRangeCmd){
+    G4double min = StoD(next());
+    G4double max = StoD(next());
+    theBooNEHadronCrossSections->SetPionZeroAlMomentumRange(min, max);
+  }
+
+
 
 
   // protons

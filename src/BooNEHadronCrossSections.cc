@@ -548,6 +548,7 @@ BooNEHadronCrossSections::GetQuasiElasticCrossSection(const G4DynamicParticle* a
   }
 
   else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+	//CHECKCHECK
     // pizero follows the same treatment;
     ReggePars.resize(10);
 
@@ -816,6 +817,7 @@ BooNEHadronCrossSections::GetInelasticCrossSection(const G4DynamicParticle* aPar
   }
 
   else if(aParticle->GetDefinition() == G4PionMinus::PionMinus()){
+	// CHECKCHECK
     // pizero inelastic get the same treatment
     ReggePars.resize(10);
 

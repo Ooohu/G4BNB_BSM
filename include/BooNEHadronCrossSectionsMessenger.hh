@@ -29,6 +29,7 @@ private:
   G4UIdirectory*  booneNeutronCrossSectionsDirectory;
   G4UIdirectory*  boonePionPlusCrossSectionsDirectory;
   G4UIdirectory*  boonePionMinusCrossSectionsDirectory;
+  G4UIdirectory*  boonePionZeroCrossSectionsDirectory;
 
   G4UIcommand*  proBeMomentumRangeCmd;
   G4UIcommand*  proAlMomentumRangeCmd;
@@ -38,6 +39,8 @@ private:
   G4UIcommand*  pipAlMomentumRangeCmd;
   G4UIcommand*  pimBeMomentumRangeCmd;
   G4UIcommand*  pimAlMomentumRangeCmd;
+  G4UIcommand*  pizBeMomentumRangeCmd;
+  G4UIcommand*  pizAlMomentumRangeCmd;
 
   G4UIcommand* totProBeXsecParCmd;
   G4UIcommand* ineProBeXsecParCmd;
