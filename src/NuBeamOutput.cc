@@ -75,7 +75,9 @@ void NuBeamOutput::RecordBeginOfRun(const G4Run*)
 {
   fDk2Nu  = new bsim::Dk2Nu;
   fDkMeta = new bsim::DkMeta;
-  if (fOutputFileName.find(".root") == std::string::npos) fOutputFileName += std::string(".dk2nu.root");
+  //CHECK
+  fOutputFileName += std::string(".dk2meson0.root");
+//  if (fOutputFileName.find(".root") == std::string::npos) fOutputFileName += std::string(".dk2nu.root");
   fOutFileDk2Nu = new TFile(fOutputFileName.c_str(),"RECREATE","root ntuple");  
   fOutTreeDk2Nu = new TTree("dk2nuTree", "Neutrino ntuple, dk2Nu format");
   fOutTreeDk2Nu->Branch("dk2nu", "bsim::Dk2Nu", &fDk2Nu, 32000, 99);

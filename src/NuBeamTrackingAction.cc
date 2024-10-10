@@ -100,7 +100,11 @@ void NuBeamTrackingAction::PreUserTrackingAction(const G4Track* aTrack)
   const int pdg = particleType->GetPDGEncoding();
   // For dk2nu output..
   if ((fRecords != NULL) &&
-      ((std::abs(pdg) == 12) ||  (std::abs(pdg) == 14) || (std::abs(pdg) == 16))) fRecords->RecordNeutrino(aTrack);
+//      ((std::abs(pdg) == 12) ||  (std::abs(pdg) == 14) || (std::abs(pdg) == 16))) fRecords->RecordNeutrino(aTrack);
+//      ((std::abs(pdg) == 111)||(std::abs(pdg) == 221)||(std::abs(pdg) == 331))) 
+      ((std::abs(pdg) == 221))) 
+	  fRecords->RecordNeutrino(aTrack);
+	  
 }
 
 void NuBeamTrackingAction::PostUserTrackingAction(const G4Track* aTrack)
