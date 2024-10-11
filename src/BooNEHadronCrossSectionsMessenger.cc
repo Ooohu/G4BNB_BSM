@@ -106,7 +106,13 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("pizAlMomentumRangeMax",'d',true);  param->SetDefaultValue(9.0); pizAlMomentumRangeCmd->SetParameter(param);
 
 
-
+  //  ▗▄▄▖  ▄▄▄ ▄▄▄     ■   ▄▄▄  ▄▄▄▄  
+  //  ▐▌ ▐▌█   █   █ ▗▄▟▙▄▖█   █ █   █ 
+  //  ▐▛▀▘ █   ▀▄▄▄▀   ▐▌  ▀▄▄▄▀ █   █ 
+  //  ▐▌               ▐▌              
+  //                   ▐▌              
+  //
+  //
   // specify proton cross section parameters
   // Be total cross section
   totProBeXsecParCmd =  new G4UIcommand("/boone/crosssections/proton/totProBeXsecPar",this);
@@ -181,7 +187,13 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("qelProAlXsecPar3",'d',true);  param->SetDefaultValue(  32.2378    ); qelProAlXsecParCmd->SetParameter(param);
   param = new G4UIparameter("qelProAlXsecPar4",'d',true);  param->SetDefaultValue(-155.862     ); qelProAlXsecParCmd->SetParameter(param);
 
-
+ //  ▗▖  ▗▖▗▞▀▚▖█  ▐▌   ■   ▄▄▄ ▄▄▄  ▄▄▄▄  
+ //  ▐▛▚▖▐▌▐▛▀▀▘▀▄▄▞▘▗▄▟▙▄▖█   █   █ █   █ 
+ //  ▐▌ ▝▜▌▝▚▄▄▖       ▐▌  █   ▀▄▄▄▀ █   █ 
+ //  ▐▌  ▐▌            ▐▌                  
+ //                    ▐▌                  
+ //
+ //
   // specify neutron cross section parameters
   // Be total cross section
   totNeuBeXsecParCmd =  new G4UIcommand("/boone/crosssections/neutron/totNeuBeXsecPar",this);
@@ -257,6 +269,13 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("qelNeuAlXsecPar4",'d',true);  param->SetDefaultValue(-155.862     ); qelNeuAlXsecParCmd->SetParameter(param);
 
 
+  //  ▗▄▄▖ ▄  ▄▄▄  ▄▄▄▄  ▗▄▄▖ █ █  ▐▌ ▄▄▄
+  //  ▐▌ ▐▌▄ █   █ █   █ ▐▌ ▐▌█ ▀▄▄▞▘▀▄▄
+  //  ▐▛▀▘ █ ▀▄▄▄▀ █   █ ▐▛▀▘ █      ▄▄▄▀
+  //  ▐▌   █             ▐▌   █
+  //
+  //
+  //
   // specify pion plus cross section parameters
   // Be total cross section
   totPipBeXsecParCmd =  new G4UIcommand("/boone/crosssections/pionplus/totPipBeXsecPar",this);
@@ -373,7 +392,12 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("qelPipAlXsecPar8",'d',true);  param->SetDefaultValue(   0.3354 ); qelPipAlXsecParCmd->SetParameter(param);
   param = new G4UIparameter("qelPipAlXsecPar9",'d',true);  param->SetDefaultValue(   0.0000 ); qelPipAlXsecParCmd->SetParameter(param);
 
-
+  //  ▗▄▄▖ ▄  ▄▄▄  ▄▄▄▄  ▗▖  ▗▖▄ ▄▄▄▄  █  ▐▌ ▄▄▄ 
+  //  ▐▌ ▐▌▄ █   █ █   █ ▐▛▚▞▜▌▄ █   █ ▀▄▄▞▘▀▄▄  
+  //  ▐▛▀▘ █ ▀▄▄▄▀ █   █ ▐▌  ▐▌█ █   █      ▄▄▄▀ 
+  //  ▐▌   █             ▐▌  ▐▌█                 
+  //
+  //
   // specify pion minus cross section parameters
   // Be total cross section
   totPimBeXsecParCmd =  new G4UIcommand("/boone/crosssections/pionminus/totPimBeXsecPar",this);
@@ -489,6 +513,129 @@ BooNEHadronCrossSectionsMessenger::BooNEHadronCrossSectionsMessenger(BooNEHadron
   param = new G4UIparameter("qelPimAlXsecPar8",'d',true);  param->SetDefaultValue(   1.383   ); qelPimAlXsecParCmd->SetParameter(param);
   param = new G4UIparameter("qelPimAlXsecPar9",'d',true);  param->SetDefaultValue(   0.000   ); qelPimAlXsecParCmd->SetParameter(param);
 
+  //  ▗▄▄▖ ▄  ▄▄▄  ▄▄▄▄ ▗▄▄▄▄▖▗▞▀▚▖ ▄▄▄ ▄▄▄  
+  //  ▐▌ ▐▌▄ █   █ █   █   ▗▞▘▐▛▀▀▘█   █   █ 
+  //  ▐▛▀▘ █ ▀▄▄▄▀ █   █ ▗▞▘  ▝▚▄▄▖█   ▀▄▄▄▀ 
+  //  ▐▌   █            ▐▙▄▄▄▖               
+  //
+  //
+  // specify pion zero cross section parameters
+  // Be total cross section
+  // CHECKCHECK parameters now copy from pionminus
+  totPizBeXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/totPizBeXsecPar",this);
+  totPizBeXsecParCmd->SetGuidance("Set values of parameters for pionzero-Be tot xsec ");
+  totPizBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/totPizBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7");
+  totPizBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  totPizBeXsecParCmd->SetGuidance("             CBW or 0.5 * (1 + tanh( (p-c1)*c2 ))* (c3 + c4 * p^c5 + c6* log^2 p + c7 * log p)");
+  totPizBeXsecParCmd->SetGuidance("             where CBW is the Carroll et al. BW function, A 9 for Be)");
+  totPizBeXsecParCmd->SetGuidance("             where c0 marks the transition between the two forms");
+
+  param = new G4UIparameter("totPizBeXsecPar0",'d',true);  param->SetDefaultValue(   0.600   ); totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar1",'d',true);  param->SetDefaultValue(   0.56733 );	totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar2",'d',true);  param->SetDefaultValue(   1.97133 );	totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar3",'d',true);  param->SetDefaultValue( 510.537   ) ;totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar4",'d',true);  param->SetDefaultValue(-212.193   );	totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar5",'d',true);  param->SetDefaultValue(   0.4417  );	totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar6",'d',true);  param->SetDefaultValue(  50.4741  );	totPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizBeXsecPar7",'d',true);  param->SetDefaultValue(   0.0     );	totPizBeXsecParCmd->SetParameter(param);
+
+  // Be inelastic cross section
+  inePizBeXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/inePizBeXsecPar",this);
+  inePizBeXsecParCmd->SetGuidance("Set values of parameters for pionzero-Be ine xsec ");
+  inePizBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/inePizBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  inePizBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  inePizBeXsecParCmd->SetGuidance("             0.5 * ( 1+ tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  inePizBeXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("inePizBeXsecPar0",'d',true);  param->SetDefaultValue(  371.452   ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar1",'d',true);  param->SetDefaultValue(    1.20055 ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar2",'d',true);  param->SetDefaultValue(    0.2328  ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar3",'d',true);  param->SetDefaultValue(    0.6000  ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar4",'d',true);  param->SetDefaultValue(    2.8737  ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar5",'d',true);  param->SetDefaultValue(   92.6620  ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar6",'d',true);  param->SetDefaultValue(  112.213   ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar7",'d',true);  param->SetDefaultValue( -0.486080  ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar8",'d',true);  param->SetDefaultValue(    7.500   ); inePizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizBeXsecPar9",'d',true);  param->SetDefaultValue(    0.0     ); inePizBeXsecParCmd->SetParameter(param);
+
+
+  // Be quasielastic cross section
+  qelPizBeXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/qelPizBeXsecPar",this);
+  qelPizBeXsecParCmd->SetGuidance("Set values of parameters for pionzero-Be qel xsec ");
+  qelPizBeXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/qelPizBeXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  qelPizBeXsecParCmd->SetGuidance("Description: parametrization according to");
+  qelPizBeXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  qelPizBeXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("qelPizBeXsecPar0",'d',true);  param->SetDefaultValue( 188.971   ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar1",'d',true);  param->SetDefaultValue(   1.20055 ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar2",'d',true);  param->SetDefaultValue(   0.1851  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar3",'d',true);  param->SetDefaultValue(   0.6264  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar4",'d',true);  param->SetDefaultValue(   2.5043  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar5",'d',true);  param->SetDefaultValue(  -1.5594  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar6",'d',true);  param->SetDefaultValue(  46.4073  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar7",'d',true);  param->SetDefaultValue(  -0.6325  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar8",'d',true);  param->SetDefaultValue(   1.8743  ); qelPizBeXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizBeXsecPar9",'d',true);  param->SetDefaultValue(   0.0000  ); qelPizBeXsecParCmd->SetParameter(param);
+
+  // Al total cross section
+  totPizAlXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/totPizAlXsecPar",this);
+  totPizAlXsecParCmd->SetGuidance("Set values of parameters for pionzero-Be tot xsec ");
+  totPizAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/totPizAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7");
+  totPizAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  totPizAlXsecParCmd->SetGuidance("             CBW or 0.5 * (1+tanh( (p-c1)*c2 ))* (c3 + c4 * p^c5 + c6* log^2 p + c7*log p)");
+  totPizAlXsecParCmd->SetGuidance("             where CBW is the Carroll et al. BW function, A =27 for Al)");
+  totPizAlXsecParCmd->SetGuidance("             where c0 marks the transition between the two forms");
+
+  param = new G4UIparameter("totPizAlXsecPar0",'d',true);  param->SetDefaultValue(  0.900   ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar1",'d',true);  param->SetDefaultValue(  0.9313  ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar2",'d',true);  param->SetDefaultValue(  3.1856  ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar3",'d',true);  param->SetDefaultValue(569.084   ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar4",'d',true);  param->SetDefaultValue(511.272   ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar5",'d',true);  param->SetDefaultValue( -3.791   ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar6",'d',true);  param->SetDefaultValue(-18.495   ); totPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("totPizAlXsecPar7",'d',true);  param->SetDefaultValue(  0.0     ); totPizAlXsecParCmd->SetParameter(param);
+
+  // Al inelastic cross section
+  inePizAlXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/inePizAlXsecPar",this);
+  inePizAlXsecParCmd->SetGuidance("Set values of parameters for pionzero-Al ine xsec ");
+  inePizAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/inePizAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  inePizAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  inePizAlXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  inePizAlXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("inePizAlXsecPar0",'d',true);  param->SetDefaultValue(  346.568  ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar1",'d',true);  param->SetDefaultValue(    1.1888 ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar2",'d',true);  param->SetDefaultValue(    0.30478); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar3",'d',true);  param->SetDefaultValue(    0.8746 ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar4",'d',true);  param->SetDefaultValue(    1.469  ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar5",'d',true);  param->SetDefaultValue( 1532.00   ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar6",'d',true);  param->SetDefaultValue( -848.623  ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar7",'d',true);  param->SetDefaultValue(    0.7050 ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar8",'d',true);  param->SetDefaultValue(  575.056  ); inePizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("inePizAlXsecPar9",'d',true);  param->SetDefaultValue(    0.000  ); inePizAlXsecParCmd->SetParameter(param);
+
+
+  // Al quasielastic cross section
+  qelPizAlXsecParCmd =  new G4UIcommand("/boone/crosssections/pionzero/qelPizAlXsecPar",this);
+  qelPizAlXsecParCmd->SetGuidance("Set values of parameters for pionzero-Al qel xsec ");
+  qelPizAlXsecParCmd->SetGuidance("Usage: /boone/crosssections/pionzero/qelPizAlXsecPar c0 c1 c2 c3 c4 c5 c6 c7 c8 c9");
+  qelPizAlXsecParCmd->SetGuidance("Description: parametrization according to");
+  qelPizAlXsecParCmd->SetGuidance("             0.5 * (1+tanh( (p-c3)*c4 ))* (c5 + c6 * p^c7 + c8* log^2 p + c9 * log p) + c0 * BW(c1, c2)");
+  qelPizAlXsecParCmd->SetGuidance("             where BW is the Breit Wigner form with peak c1 and width c2)");
+
+  param = new G4UIparameter("qelPizAlXsecPar0",'d',true);  param->SetDefaultValue( 129.119   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar1",'d',true);  param->SetDefaultValue(   1.1888  ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar2",'d',true);  param->SetDefaultValue(   0.30478 ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar3",'d',true);  param->SetDefaultValue(   0.633   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar4",'d',true);  param->SetDefaultValue(   2.199   ); qelPizAlXsecParCmd->SetParameter(param); 
+  param = new G4UIparameter("qelPizAlXsecPar5",'d',true);  param->SetDefaultValue(  32.523   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar6",'d',true);  param->SetDefaultValue(  85.148   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar7",'d',true);  param->SetDefaultValue(  -1.225   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar8",'d',true);  param->SetDefaultValue(   1.383   ); qelPizAlXsecParCmd->SetParameter(param);
+  param = new G4UIparameter("qelPizAlXsecPar9",'d',true);  param->SetDefaultValue(   0.000   ); qelPizAlXsecParCmd->SetParameter(param);
+
+
 }
 
 BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
@@ -538,6 +685,15 @@ BooNEHadronCrossSectionsMessenger::~BooNEHadronCrossSectionsMessenger()
   delete totPimAlXsecParCmd;
   delete inePimAlXsecParCmd;
   delete qelPimAlXsecParCmd;
+
+  delete totPizBeXsecParCmd;
+  delete inePizBeXsecParCmd;
+  delete qelPizBeXsecParCmd;
+  delete totPizAlXsecParCmd;
+  delete inePizAlXsecParCmd;
+  delete qelPizAlXsecParCmd;
+
+
 
 }
 
