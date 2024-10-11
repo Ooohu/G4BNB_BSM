@@ -546,197 +546,273 @@ void BooNEHadronCrossSectionsMessenger::SetNewValue(G4UIcommand * command,G4Stri
 
   G4Tokenizer next(newValues );
 
-  // momentum range
-  if (command == proBeMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetProtonBeMomentumRange(min, max);
-  }
+//OLD
+//  // momentum range
+//  if (command == proBeMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetProtonBeMomentumRange(min, max);
+//  }
+//
+//  if (command == proAlMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetProtonAlMomentumRange(min, max);
+//  }
+//
+//  if (command == neuBeMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetNeutronBeMomentumRange(min, max);
+//  }
+//
+//  if (command == neuAlMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetNeutronAlMomentumRange(min, max);
+//  }
+//
+//  if (command == pipBeMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionPlusBeMomentumRange(min, max);
+//  }
+//
+//  if (command == pipAlMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionPlusAlMomentumRange(min, max);
+//  }
+//
+//
+//  if (command == pimBeMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionMinusBeMomentumRange(min, max);
+//  }
+//
+//  if (command == pimAlMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionMinusAlMomentumRange(min, max);
+//  }
+//
+//  if (command == pizBeMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionZeroBeMomentumRange(min, max);
+//  }
+//
+//  if (command == pizAlMomentumRangeCmd){
+//    G4double min = StoD(next());
+//    G4double max = StoD(next());
+//    theBooNEHadronCrossSections->SetPionZeroAlMomentumRange(min, max);
+//  }
+//OLD
 
-  if (command == proAlMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetProtonAlMomentumRange(min, max);
-  }
+    // Map commands to corresponding member functions for setting momentum ranges
+    std::unordered_map<G4UIcommand*, void(BooNEHadronCrossSections::*)(G4double, G4double)> commandMappRange = {
+        {proBeMomentumRangeCmd, &BooNEHadronCrossSections::SetProtonBeMomentumRange},
+        {proAlMomentumRangeCmd, &BooNEHadronCrossSections::SetProtonAlMomentumRange},
+        {neuBeMomentumRangeCmd, &BooNEHadronCrossSections::SetNeutronBeMomentumRange},
+        {neuAlMomentumRangeCmd, &BooNEHadronCrossSections::SetNeutronAlMomentumRange},
+        {pipBeMomentumRangeCmd, &BooNEHadronCrossSections::SetPionPlusBeMomentumRange},
+        {pipAlMomentumRangeCmd, &BooNEHadronCrossSections::SetPionPlusAlMomentumRange},
+        {pimBeMomentumRangeCmd, &BooNEHadronCrossSections::SetPionMinusBeMomentumRange},
+        {pimAlMomentumRangeCmd, &BooNEHadronCrossSections::SetPionMinusAlMomentumRange},
+        {pizBeMomentumRangeCmd, &BooNEHadronCrossSections::SetPionZeroBeMomentumRange},
+        {pizAlMomentumRangeCmd, &BooNEHadronCrossSections::SetPionZeroAlMomentumRange}
+    };
 
-  if (command == neuBeMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetNeutronBeMomentumRange(min, max);
-  }
+    // Look up the command and call the associated setter function
+    auto it = commandMappRange.find(command);
+    if (it != commandMappRange.end()) {
+        G4double min = StoD(next());
+        G4double max = StoD(next());
+        (theBooNEHadronCrossSections->*(it->second))(min, max);
+    }
 
-  if (command == neuAlMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetNeutronAlMomentumRange(min, max);
-  }
+// OLD
+//  // protons
+//  if (command == totProBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)totProBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpBeTotParameter(totProBeXsecPar, 5);
+//  }
+//
+//  if (command == ineProBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)ineProBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpBeIneParameter(ineProBeXsecPar, 5);
+//  }
+//
+//  if (command == qelProBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)qelProBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpBeQelParameter(qelProBeXsecPar, 5);
+//  }
+//
+//  if (command == totProAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)totProAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpAlTotParameter(totProAlXsecPar, 5);
+//  }
+//
+//  if (command == ineProAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)ineProAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpAlIneParameter(ineProAlXsecPar, 5);
+//  }
+//
+//  if (command == qelProAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)qelProAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetpAlQelParameter(qelProAlXsecPar, 5);
+//  }
+//
+//
+//  // neutrons
+//  if (command == totNeuBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)totNeuBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnBeTotParameter(totNeuBeXsecPar, 5);
+//  }
+//
+//  if (command == ineNeuBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)ineNeuBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnBeIneParameter(ineNeuBeXsecPar, 5);
+//  }
+//
+//  if (command == qelNeuBeXsecParCmd){
+//    for(int i = 0; i < 5; i++)qelNeuBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnBeQelParameter(qelNeuBeXsecPar, 5);
+//  }
+//
+//  if (command == totNeuAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)totNeuAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnAlTotParameter(totNeuAlXsecPar, 5);
+//  }
+//
+//  if (command == ineNeuAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)ineNeuAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnAlIneParameter(ineNeuAlXsecPar, 5);
+//  }
+//
+//  if (command == qelNeuAlXsecParCmd){
+//    for(int i = 0; i < 5; i++)qelNeuAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetnAlQelParameter(qelNeuAlXsecPar, 5);
+//  }
+//
+//
+//
+//  // Pion plus
+//  if (command == totPipBeXsecParCmd){ 
+//    for(int i = 0; i < 8; i++)totPipBeXsecPar[i] = StoD(next()); 
+//    theBooNEHadronCrossSections->SetPipBeTotParameter(totPipBeXsecPar, 8);
+//  }
+//
+//  if (command == inePipBeXsecParCmd){
+//    for(int i = 0; i < 10; i++)inePipBeXsecPar[i] = StoD(next()); 
+//    theBooNEHadronCrossSections->SetPipBeIneParameter(inePipBeXsecPar, 10);
+//  }
+//
+//  if (command == qelPipBeXsecParCmd){
+//    for(int i = 0; i < 10; i++)qelPipBeXsecPar[i] = StoD(next()); 
+//    theBooNEHadronCrossSections->SetPipBeQelParameter(qelPipBeXsecPar, 10);
+//  }
+//
+//  if (command == totPipAlXsecParCmd){
+//    for(int i = 0; i < 8; i++)totPipAlXsecPar[i] = StoD(next()); 
+//    theBooNEHadronCrossSections->SetPipAlTotParameter(totPipAlXsecPar, 8);
+//  }
+//
+//  if (command == inePipAlXsecParCmd){
+//    for(int i = 0; i < 10; i++)inePipAlXsecPar[i] = StoD(next()); 
+//    theBooNEHadronCrossSections->SetPipAlIneParameter(inePipAlXsecPar, 10);
+//  }
+//
+//  if (command == qelPipAlXsecParCmd){
+//    for(int i = 0; i < 10; i++)qelPipAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPipAlQelParameter(qelPipAlXsecPar, 10);
+//  }
+//
+//
+//  // Pion minus
+//  if (command == totPimBeXsecParCmd){
+//    for(int i = 0; i < 8; i++)totPimBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimBeTotParameter(totPimBeXsecPar, 8);
+//  }
+//
+//  if (command == inePimBeXsecParCmd){
+//    for(int i = 0; i < 10; i++)inePimBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimBeIneParameter(inePimBeXsecPar, 10);
+//  }
+//
+//  if (command == qelPimBeXsecParCmd){
+//    for(int i = 0; i < 10; i++)qelPimBeXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimBeQelParameter(qelPimBeXsecPar, 10);
+//  }
+//
+//  if (command == totPimAlXsecParCmd){
+//    for(int i = 0; i < 8; i++)totPimAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimAlTotParameter(totPimAlXsecPar, 8);
+//  }
+//
+//  if (command == inePimAlXsecParCmd){
+//    for(int i = 0; i < 10; i++)inePimAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimAlIneParameter(inePimAlXsecPar, 10);
+//  }
+//
+//  if (command == qelPimAlXsecParCmd){
+//    for(int i = 0; i < 10; i++)qelPimAlXsecPar[i] = StoD(next());
+//    theBooNEHadronCrossSections->SetPimAlQelParameter(qelPimAlXsecPar, 10);
+//  }
+// OLD
 
-  if (command == pipBeMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionPlusBeMomentumRange(min, max);
-  }
+    // Helper lambda for setting parameters
+    auto setParameters = [&](auto setterFunc, G4double* paramsArray, int size) {
+        for (int i = 0; i < size; i++) paramsArray[i] = StoD(next());
+        (theBooNEHadronCrossSections->*setterFunc)(paramsArray, size);
+    };
 
-  if (command == pipAlMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionPlusAlMomentumRange(min, max);
-  }
+    // Map each command to the corresponding setter function and parameter array size
+    std::unordered_map<G4UIcommand*, 
+					std::tuple<void(BooNEHadronCrossSections::*)(G4double*, int), G4double*, int>
+					> commandMapPars = {
+        // Protons
+        {totProBeXsecParCmd, {&BooNEHadronCrossSections::SetpBeTotParameter, totProBeXsecPar, 5}},
+        {ineProBeXsecParCmd, {&BooNEHadronCrossSections::SetpBeIneParameter, ineProBeXsecPar, 5}},
+        {qelProBeXsecParCmd, {&BooNEHadronCrossSections::SetpBeQelParameter, qelProBeXsecPar, 5}},
+        {totProAlXsecParCmd, {&BooNEHadronCrossSections::SetpAlTotParameter, totProAlXsecPar, 5}},
+        {ineProAlXsecParCmd, {&BooNEHadronCrossSections::SetpAlIneParameter, ineProAlXsecPar, 5}},
+        {qelProAlXsecParCmd, {&BooNEHadronCrossSections::SetpAlQelParameter, qelProAlXsecPar, 5}},
+        // Neutrons
+        {totNeuBeXsecParCmd, {&BooNEHadronCrossSections::SetnBeTotParameter, totNeuBeXsecPar, 5}},
+        {ineNeuBeXsecParCmd, {&BooNEHadronCrossSections::SetnBeIneParameter, ineNeuBeXsecPar, 5}},
+        {qelNeuBeXsecParCmd, {&BooNEHadronCrossSections::SetnBeQelParameter, qelNeuBeXsecPar, 5}},
+        {totNeuAlXsecParCmd, {&BooNEHadronCrossSections::SetnAlTotParameter, totNeuAlXsecPar, 5}},
+        {ineNeuAlXsecParCmd, {&BooNEHadronCrossSections::SetnAlIneParameter, ineNeuAlXsecPar, 5}},
+        {qelNeuAlXsecParCmd, {&BooNEHadronCrossSections::SetnAlQelParameter, qelNeuAlXsecPar, 5}},
+        // Pion plus
+        {totPipBeXsecParCmd, {&BooNEHadronCrossSections::SetPipBeTotParameter, totPipBeXsecPar, 8}},
+        {inePipBeXsecParCmd, {&BooNEHadronCrossSections::SetPipBeIneParameter, inePipBeXsecPar, 10}},
+        {qelPipBeXsecParCmd, {&BooNEHadronCrossSections::SetPipBeQelParameter, qelPipBeXsecPar, 10}},
+        {totPipAlXsecParCmd, {&BooNEHadronCrossSections::SetPipAlTotParameter, totPipAlXsecPar, 8}},
+        {inePipAlXsecParCmd, {&BooNEHadronCrossSections::SetPipAlIneParameter, inePipAlXsecPar, 10}},
+        {qelPipAlXsecParCmd, {&BooNEHadronCrossSections::SetPipAlQelParameter, qelPipAlXsecPar, 10}},
+        // Pion minus
+        {totPimBeXsecParCmd, {&BooNEHadronCrossSections::SetPimBeTotParameter, totPimBeXsecPar, 8}},
+        {inePimBeXsecParCmd, {&BooNEHadronCrossSections::SetPimBeIneParameter, inePimBeXsecPar, 10}},
+        {qelPimBeXsecParCmd, {&BooNEHadronCrossSections::SetPimBeQelParameter, qelPimBeXsecPar, 10}},
+        {totPimAlXsecParCmd, {&BooNEHadronCrossSections::SetPimAlTotParameter, totPimAlXsecPar, 8}},
+        {inePimAlXsecParCmd, {&BooNEHadronCrossSections::SetPimAlIneParameter, inePimAlXsecPar, 10}},
+        {qelPimAlXsecParCmd, {&BooNEHadronCrossSections::SetPimAlQelParameter, qelPimAlXsecPar, 10}},
+        // Pion zero
+        {totPizBeXsecParCmd, {&BooNEHadronCrossSections::SetPizBeTotParameter, totPizBeXsecPar, 8}},
+        {inePizBeXsecParCmd, {&BooNEHadronCrossSections::SetPizBeIneParameter, inePizBeXsecPar, 10}},
+        {qelPizBeXsecParCmd, {&BooNEHadronCrossSections::SetPizBeQelParameter, qelPizBeXsecPar, 10}},
+        {totPizAlXsecParCmd, {&BooNEHadronCrossSections::SetPizAlTotParameter, totPizAlXsecPar, 8}},
+        {inePizAlXsecParCmd, {&BooNEHadronCrossSections::SetPizAlIneParameter, inePizAlXsecPar, 10}},
+        {qelPizAlXsecParCmd, {&BooNEHadronCrossSections::SetPizAlQelParameter, qelPizAlXsecPar, 10}}
+    };
 
-
-  if (command == pimBeMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionMinusBeMomentumRange(min, max);
-  }
-
-  if (command == pimAlMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionMinusAlMomentumRange(min, max);
-  }
-
-  if (command == pizBeMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionZeroBeMomentumRange(min, max);
-  }
-
-  if (command == pizAlMomentumRangeCmd){
-    G4double min = StoD(next());
-    G4double max = StoD(next());
-    theBooNEHadronCrossSections->SetPionZeroAlMomentumRange(min, max);
-  }
-
-
-
-
-  // protons
-  if (command == totProBeXsecParCmd){
-    for(int i = 0; i < 5; i++)totProBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpBeTotParameter(totProBeXsecPar, 5);
-  }
-
-  if (command == ineProBeXsecParCmd){
-    for(int i = 0; i < 5; i++)ineProBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpBeIneParameter(ineProBeXsecPar, 5);
-  }
-
-  if (command == qelProBeXsecParCmd){
-    for(int i = 0; i < 5; i++)qelProBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpBeQelParameter(qelProBeXsecPar, 5);
-  }
-
-  if (command == totProAlXsecParCmd){
-    for(int i = 0; i < 5; i++)totProAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpAlTotParameter(totProAlXsecPar, 5);
-  }
-
-  if (command == ineProAlXsecParCmd){
-    for(int i = 0; i < 5; i++)ineProAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpAlIneParameter(ineProAlXsecPar, 5);
-  }
-
-  if (command == qelProAlXsecParCmd){
-    for(int i = 0; i < 5; i++)qelProAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetpAlQelParameter(qelProAlXsecPar, 5);
-  }
-
-
-  // neutrons
-  if (command == totNeuBeXsecParCmd){
-    for(int i = 0; i < 5; i++)totNeuBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnBeTotParameter(totNeuBeXsecPar, 5);
-  }
-
-  if (command == ineNeuBeXsecParCmd){
-    for(int i = 0; i < 5; i++)ineNeuBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnBeIneParameter(ineNeuBeXsecPar, 5);
-  }
-
-  if (command == qelNeuBeXsecParCmd){
-    for(int i = 0; i < 5; i++)qelNeuBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnBeQelParameter(qelNeuBeXsecPar, 5);
-  }
-
-  if (command == totNeuAlXsecParCmd){
-    for(int i = 0; i < 5; i++)totNeuAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnAlTotParameter(totNeuAlXsecPar, 5);
-  }
-
-  if (command == ineNeuAlXsecParCmd){
-    for(int i = 0; i < 5; i++)ineNeuAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnAlIneParameter(ineNeuAlXsecPar, 5);
-  }
-
-  if (command == qelNeuAlXsecParCmd){
-    for(int i = 0; i < 5; i++)qelNeuAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetnAlQelParameter(qelNeuAlXsecPar, 5);
-  }
-
-
-
-  // Pion plus
-  if (command == totPipBeXsecParCmd){ 
-    for(int i = 0; i < 8; i++)totPipBeXsecPar[i] = StoD(next()); 
-    theBooNEHadronCrossSections->SetPipBeTotParameter(totPipBeXsecPar, 8);
-  }
-
-  if (command == inePipBeXsecParCmd){
-    for(int i = 0; i < 10; i++)inePipBeXsecPar[i] = StoD(next()); 
-    theBooNEHadronCrossSections->SetPipBeIneParameter(inePipBeXsecPar, 10);
-  }
-
-  if (command == qelPipBeXsecParCmd){
-    for(int i = 0; i < 10; i++)qelPipBeXsecPar[i] = StoD(next()); 
-    theBooNEHadronCrossSections->SetPipBeQelParameter(qelPipBeXsecPar, 10);
-  }
-
-  if (command == totPipAlXsecParCmd){
-    for(int i = 0; i < 8; i++)totPipAlXsecPar[i] = StoD(next()); 
-    theBooNEHadronCrossSections->SetPipAlTotParameter(totPipAlXsecPar, 8);
-  }
-
-  if (command == inePipAlXsecParCmd){
-    for(int i = 0; i < 10; i++)inePipAlXsecPar[i] = StoD(next()); 
-    theBooNEHadronCrossSections->SetPipAlIneParameter(inePipAlXsecPar, 10);
-  }
-
-  if (command == qelPipAlXsecParCmd){
-    for(int i = 0; i < 10; i++)qelPipAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPipAlQelParameter(qelPipAlXsecPar, 10);
-  }
-
-
-  // Pion minus
-  if (command == totPimBeXsecParCmd){
-    for(int i = 0; i < 8; i++)totPimBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimBeTotParameter(totPimBeXsecPar, 8);
-  }
-
-  if (command == inePimBeXsecParCmd){
-    for(int i = 0; i < 10; i++)inePimBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimBeIneParameter(inePimBeXsecPar, 10);
-  }
-
-  if (command == qelPimBeXsecParCmd){
-    for(int i = 0; i < 10; i++)qelPimBeXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimBeQelParameter(qelPimBeXsecPar, 10);
-  }
-
-  if (command == totPimAlXsecParCmd){
-    for(int i = 0; i < 8; i++)totPimAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimAlTotParameter(totPimAlXsecPar, 8);
-  }
-
-  if (command == inePimAlXsecParCmd){
-    for(int i = 0; i < 10; i++)inePimAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimAlIneParameter(inePimAlXsecPar, 10);
-  }
-
-  if (command == qelPimAlXsecParCmd){
-    for(int i = 0; i < 10; i++)qelPimAlXsecPar[i] = StoD(next());
-    theBooNEHadronCrossSections->SetPimAlQelParameter(qelPimAlXsecPar, 10);
-  }
+    // Look up the command and call the corresponding setter function
+    auto it2 = commandMapPars.find(command);
+    if (it2 != commandMapPars.end()) {
+	 setParameters(std::get<0>(it2->second), std::get<1>(it2->second), std::get<2>(it2->second));
+    }
 
 }

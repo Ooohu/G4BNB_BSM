@@ -1,6 +1,7 @@
 #ifndef BooNEHadronCrossSectionsMessenger_h
 #define BooNEHadronCrossSectionsMessenger_h 1
 
+#include <unordered_map>
 #include "globals.hh"
 #include "G4UImessenger.hh"
 
@@ -70,6 +71,15 @@ private:
   G4UIcommand* inePimAlXsecParCmd;
   G4UIcommand* qelPimAlXsecParCmd;
 
+  G4UIcommand* totPizBeXsecParCmd;
+  G4UIcommand* inePizBeXsecParCmd;
+  G4UIcommand* qelPizBeXsecParCmd;
+  G4UIcommand* totPizAlXsecParCmd;
+  G4UIcommand* inePizAlXsecParCmd;
+  G4UIcommand* qelPizAlXsecParCmd;
+
+
+
   G4double totProBeXsecPar[5], ineProBeXsecPar[5], qelProBeXsecPar[5];
   G4double totProAlXsecPar[5], ineProAlXsecPar[5], qelProAlXsecPar[5];
   G4double totNeuBeXsecPar[5], ineNeuBeXsecPar[5], qelNeuBeXsecPar[5];
@@ -78,7 +88,8 @@ private:
   G4double totPipAlXsecPar[8], inePipAlXsecPar[10], qelPipAlXsecPar[10];
   G4double totPimBeXsecPar[8], inePimBeXsecPar[10], qelPimBeXsecPar[10];
   G4double totPimAlXsecPar[8], inePimAlXsecPar[10], qelPimAlXsecPar[10];
-
+  G4double totPizBeXsecPar[8], inePizBeXsecPar[10], qelPizBeXsecPar[10];
+  G4double totPizAlXsecPar[8], inePizAlXsecPar[10], qelPizAlXsecPar[10];
 };
 
 #endif
